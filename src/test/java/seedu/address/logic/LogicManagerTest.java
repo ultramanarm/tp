@@ -71,6 +71,28 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void execute_remarkThenEditAndClear_persistsChanges() throws Exception {
+        model.addPerson(AMY);
+        JsonAddressBookStorage savedAddressBook =
+                new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
+
+        logic.execute("remark 1 r/Likes coffee");
+        Person remarkedPerson = new PersonBuilder(AMY).withRemark("Likes coffee").build();
+        assertEquals(remarkedPerson, model.getFilteredPersonList().getFirst());
+        assertEquals(remarkedPerson, savedAddressBook.readAddressBook().orElseThrow().getPersonList().getFirst());
+
+        logic.execute("edit 1 p/91234567");
+        Person editedPerson = new PersonBuilder(remarkedPerson).withPhone("91234567").build();
+        assertEquals(editedPerson, model.getFilteredPersonList().getFirst());
+        assertEquals(editedPerson, savedAddressBook.readAddressBook().orElseThrow().getPersonList().getFirst());
+
+        logic.execute("remark 1 r/");
+        Person clearedPerson = new PersonBuilder(editedPerson).withRemark("").build();
+        assertEquals(clearedPerson, model.getFilteredPersonList().getFirst());
+        assertEquals(clearedPerson, savedAddressBook.readAddressBook().orElseThrow().getPersonList().getFirst());
+    }
+
+    @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));

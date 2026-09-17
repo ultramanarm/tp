@@ -109,6 +109,25 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+### Adding or removing a remark: `remark`
+
+Adds, replaces, or removes a note for an existing person.
+
+Format: `remark INDEX [r/REMARK]`
+
+* The index refers to the index number shown in the displayed person list, including results of a `find` command. It **must be a positive integer** 1, 2, 3, …​ within that list.
+* A new remark replaces the person's existing remark. Their other contact details and tags are preserved.
+* To remove a remark, enter `r/` without text after it, or omit `r/` entirely.
+* Specify `r/` at most once. Leading and trailing spaces around the remark are ignored.
+* The remark is displayed on the person's card and saved automatically. Editing the person's other details with `edit` preserves their remark.
+* After a successful `remark` command, the app shows all persons again.
+
+Examples:
+
+* `remark 1 r/Likes coffee` sets the 1st displayed person's remark to `Likes coffee`.
+* `find Betsy` followed by `remark 1 r/Met at the conference` sets a remark for the 1st person in the search results.
+* `remark 1 r/` removes the 1st displayed person's remark. `remark 1` has the same effect.
+
 ### Locating persons by name: `find`
 
 Finds persons whose names contain any of the given keywords.
@@ -196,3 +215,4 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Help** | `help`
+**Remark** | `remark INDEX [r/REMARK]`<br> e.g., `remark 1 r/Likes coffee`
