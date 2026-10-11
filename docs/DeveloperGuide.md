@@ -23,6 +23,7 @@ title: Developer Guide
 * Zhu Zhi Yu used OpenAI Codex for the UI startup error-handling fix and its regression tests.
 * Zhu Zhi Yu used OpenAI Codex for screen-aware window restoration, active contact-card wrapping, their regression tests, and the related layout documentation.
 * Zhu Zhi Yu used OpenAI Codex for dormant role-aware add argument parsing, its immutable ID-free input, regression tests, and integration documentation.
+* Zhu Zhi Yu used OpenAI Codex for the dormant complete-state person-addition candidate, its transaction-preparation regression tests, and the related integration notes.
 * Zhu Zhi Yu used OpenAI Codex for constant-stack email validation that preserves the inherited contact rules, its parser/file-loading regressions, and the related implementation and manual-testing notes.
 * Zhu Zhi Yu used OpenAI Codex to clarify the course-prescribed Java 25 and macOS runtime setup, release verification, and manual-testing documentation.
 * Zhu Zhi Yu used OpenAI Codex for PR review and Javadoc formatting corrections in the canonical aggregate foundation (#76).
@@ -419,6 +420,46 @@ backup or correct JSON/access permissions and restart. Confirm valid human-edite
 `ProtectedStartupTest` exercises the startup/command/storage boundary and original-byte preservation;
 `UiManagerTest` verifies the warning without requiring a real window.
 
+#### People-only canonical JSON storage (#79)
+
+`JsonPonHubDataCodec` converts between a complete `PonHubDataState` and the version-1 envelope below.
+`JsonPonHubDataStorage` reads one UTF-8 document into a validated candidate and uses the existing safe
+file writer for saves. These classes are not wired into startup, commands or the legacy storage path;
+protected runtime integration remains #84. Preferences remain in their existing separate file.
+
+```json
+{
+  "schemaVersion": 1,
+  "people": [
+    {"id": "S1", "role": "STUDENT", "name": "Alex", "level": "P1", "parentPhone": "00123456"}
+  ],
+  "personCounters": {"STUDENT": 1, "TUTOR": 0, "PARENT": 0},
+  "lastAllocatedLessonSequence": 0,
+  "lessons": [],
+  "attendance": []
+}
+```
+
+People array order is global creation order. Roles are `STUDENT`, `TUTOR` or `PARENT` and must agree with
+the stable ID prefix. Every record requires `id`, `role` and `name`. Students additionally require `level`
+and `parentPhone`; tutors and parents require their own `phone`. Optional `phone` (for students), `email`
+and `address` are omitted when absent, never encoded as null. Contact values are strings, preserving
+leading zeros. Unknown fields and role-inappropriate fields are rejected rather than silently discarded.
+
+All three person counters and the lesson counter are required nonnegative integers up to `Long.MAX_VALUE`
+(exhaustion). They include deleted identities and must not be recomputed from retained records. Person
+counters must cover every retained ID. Both lesson/attendance arrays must currently be empty: non-empty
+collections are rejected on both read and write until #81/#83 supply their codecs. They must never be
+dropped while rewriting a file. Serialization finishes before any filesystem write.
+
+Close the app and preserve a backup before manual editing. For example, adding `"email": "alex@example.com"`
+to the student above is valid; making a phone numeric, removing a required field, or lowering its student
+counter below 1 is rejected. Object field order and whitespace do not matter. Round-trip tests compare the
+complete snapshot, including optional-field absence, people order, deleted-ID history and exhausted counters.
+Loading classifies the version first and validates all records/counters before returning; callers install
+the candidate only on success. Loading itself never writes or changes live state. This codec supplies no
+legacy migration or rejected-file session lock; the existing protected startup remains independently active.
+
 #### Planned protected loading and legacy upgrade
 
 These are requirements for the first canonical cutover, not behavior delivered by the inherited loader. Keep the inherited runtime until the compatible canonical Model, codecs, people commands and protected loader are activated together. The new runtime must classify the configured file before decoding: missing data may start a fresh supported root; valid supported versioned data loads only after complete domain, identity and reference validation. Unreadable, corrupt, unsupported-version and unversioned AB3 files produce controlled errors, actionable recovery guidance and no operational writes to the rejected file. Preserve its original bytes through help, list, exit and attempted mutations; saving preferences remains separate.
@@ -564,6 +605,26 @@ Prefixes are lowercase and may appear once in any order. Role and education-leve
 **Activation boundary:** The existing `AddCommandParser`, router and supported-command catalogue still handle legacy person records using the shared contact policy. The prepared parser does not check duplicate people, allocate even a provisional ID, reset the view, save data or perform rollback. Those behaviors remain #85 work after the canonical aggregate, compatible persistence, protected loading and transaction foundations are ready. At cutover, construct and commit the record through that single canonical root; never use a placeholder ID or a second writable person store.
 
 Automated checks exercise all three roles, absent/present optional contacts, argument order/case, role restrictions, missing/blank/repeated/unknown fields, controls, phone bounds, immutable input invariants and unchanged active routing. Canonical duplicate detection, siblings sharing parent phones, committed ID allocation, save/reload and failed-save restoration remain integration tests under #85.
+
+### Staged person-addition candidate
+
+`PersonAdditionCandidate.prepare(PonHubDataState, PersonAdditionInput)` prepares a complete immutable
+addition candidate for [#85](https://github.com/AY2627S1-CS2103T-F13-3/tp/issues/85). It copies the source people
+snapshot into a temporary `PeopleRegistry`, reuses its role-specific addition and duplicate rules, and appends
+the resulting person while preserving lessons, rosters, retained attendance and lesson allocation history.
+`getCandidateState()` supplies the complete proposed state; `getAddedPerson()` supplies the proposed record
+and its ID. Preparation leaves the source and live data unchanged, including every allocation counter.
+
+This seam remains dormant. The proposed ID is not reserved in operational state, and abandoned candidates
+consume no identity. The later single-threaded transaction must prepare from its current snapshot, save the
+complete candidate successfully, and then install it before returning success or resetting the people view.
+This helper performs no persistence, rollback, command dispatch, view refresh or runtime activation. Compatible
+storage, protected loading and transaction integration still gate coordinated add/list/card activation.
+
+Regression tests cover all roles and optional contacts, siblings without a stored parent record, near-duplicate
+identities, normalized duplicate rejection, deleted-ID history, allocation exhaustion, retained relationships
+and immutable independent snapshots. Save/reload, failed-save restoration and visible success remain pending
+actual command/transaction integration.
 
 ### Prepared person record cards
 
