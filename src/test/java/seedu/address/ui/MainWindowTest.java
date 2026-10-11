@@ -28,6 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -70,12 +71,21 @@ public class MainWindowTest {
     @Test
     public void layout_compactAndLargeScenes_keepControlsAndListAccessible() throws Exception {
         Region root = callOnFxThread(() -> (Region) createWindow().getPrimaryStage().getScene().getRoot());
+        String feedback = "Long feedback that must remain readable. ".repeat(100) + "Final feedback marker.";
         for (int[] size : new int[][] {{450, 330}, {853, 420}, {1536, 800}, {1920, 1020}}) {
             runOnFxThread(() -> {
                 layoutScene(root, size[0], size[1]);
                 TextArea result = (TextArea) root.lookup("#resultDisplay");
-                result.setText("Long feedback that must remain readable. ".repeat(100));
+                result.setText(feedback);
+                result.setScrollTop(0);
                 root.layout();
+            });
+            runOnFxThread(() -> {
+                root.applyCss();
+                root.layout();
+                TextArea result = (TextArea) root.lookup("#resultDisplay");
+                // Wrapped-content layout can defer the ScrollPane fit update to the next JavaFX turn.
+                result.layout();
             });
             runOnFxThread(() -> {
                 root.layout();
@@ -94,6 +104,26 @@ public class MainWindowTest {
                 assertTrue(verticalScrollBar(result).isVisible(),
                         "Long feedback must have a scrollable result area at " + size[0] + "x" + size[1]
                                 + "; height=" + result.getHeight());
+                ScrollPane scrollPane = (ScrollPane) result.lookup(".scroll-pane");
+                assertTrue(scrollPane.getContent().getBoundsInLocal().getHeight()
+                        > scrollPane.getViewportBounds().getHeight(), "Long feedback must exceed its viewport.");
+                assertEquals(0, result.getScrollTop(), 1, "Each size must begin at the top of the feedback.");
+                ScrollBar bar = verticalScrollBar(result);
+                bar.setValue(bar.getMax());
+            });
+            runOnFxThread(() -> {
+                root.layout();
+                TextArea result = (TextArea) root.lookup("#resultDisplay");
+                ScrollPane scrollPane = (ScrollPane) result.lookup(".scroll-pane");
+                Node viewport = scrollPane.lookup(".viewport");
+                Bounds viewportBounds = viewport.localToScene(viewport.getBoundsInLocal());
+                Node content = scrollPane.getContent();
+                Bounds contentBounds = content.localToScene(content.getBoundsInLocal());
+                assertTrue(result.getScrollTop() > 0, "Scrolling must move the long feedback.");
+                assertTrue(contentBounds.getMaxY() >= viewportBounds.getMinY()
+                                && contentBounds.getMaxY() <= viewportBounds.getMaxY() + 1,
+                        "Scrolling must expose the final feedback at " + size[0] + "x" + size[1]);
+                assertEquals(feedback, result.getText(), "Scrolling must retain the complete feedback.");
             });
         }
     }
