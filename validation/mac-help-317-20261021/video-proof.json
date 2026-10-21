@@ -1,0 +1,246 @@
+[
+  {
+    "axis": "result",
+    "nativeBounds": {
+      "X": 80,
+      "Height": 800,
+      "Y": 80,
+      "Width": 1200
+    },
+    "from": [
+      680,
+      510.75
+    ],
+    "to": [
+      680,
+      300
+    ],
+    "before": {
+      "window": {
+        "position": [
+          80,
+          80
+        ],
+        "size": [
+          1200,
+          800
+        ]
+      },
+      "result": {
+        "position": [
+          93,
+          181
+        ],
+        "size": [
+          1174,
+          319
+        ]
+      },
+      "people": {
+        "position": [
+          92,
+          542
+        ],
+        "size": [
+          618,
+          250
+        ]
+      },
+      "lessons": {
+        "position": [
+          740,
+          559
+        ],
+        "size": [
+          529,
+          233
+        ]
+      },
+      "input": {
+        "position": [
+          91,
+          808
+        ],
+        "size": [
+          1178,
+          36
+        ]
+      }
+    },
+    "after": {
+      "window": {
+        "position": [
+          80,
+          80
+        ],
+        "size": [
+          1200,
+          800
+        ]
+      },
+      "result": {
+        "position": [
+          93,
+          181
+        ],
+        "size": [
+          1174,
+          109
+        ]
+      },
+      "people": {
+        "position": [
+          92,
+          332
+        ],
+        "size": [
+          618,
+          460
+        ]
+      },
+      "lessons": {
+        "position": [
+          740,
+          349
+        ],
+        "size": [
+          529,
+          443
+        ]
+      },
+      "input": {
+        "position": [
+          91,
+          808
+        ],
+        "size": [
+          1178,
+          36
+        ]
+      }
+    },
+    "videoStartedUtc": "2026-10-21T02:44:46.513951+00:00"
+  },
+  {
+    "axis": "result",
+    "nativeBounds": {
+      "X": 80,
+      "Height": 800,
+      "Y": 80,
+      "Width": 1200
+    },
+    "from": [
+      680,
+      300.75
+    ],
+    "to": [
+      680,
+      510
+    ],
+    "before": {
+      "window": {
+        "position": [
+          80,
+          80
+        ],
+        "size": [
+          1200,
+          800
+        ]
+      },
+      "result": {
+        "position": [
+          93,
+          181
+        ],
+        "size": [
+          1174,
+          109
+        ]
+      },
+      "people": {
+        "position": [
+          92,
+          332
+        ],
+        "size": [
+          618,
+          460
+        ]
+      },
+      "lessons": {
+        "position": [
+          740,
+          349
+        ],
+        "size": [
+          529,
+          443
+        ]
+      },
+      "input": {
+        "position": [
+          91,
+          808
+        ],
+        "size": [
+          1178,
+          36
+        ]
+      }
+    },
+    "after": {
+      "window": {
+        "position": [
+          80,
+          80
+        ],
+        "size": [
+          1200,
+          800
+        ]
+      },
+      "result": {
+        "position": [
+          93,
+          181
+        ],
+        "size": [
+          1174,
+          319
+        ]
+      },
+      "people": {
+        "position": [
+          92,
+          542
+        ],
+        "size": [
+          618,
+          250
+        ]
+      },
+      "lessons": {
+        "position": [
+          740,
+          559
+        ],
+        "size": [
+          529,
+          233
+        ]
+      },
+      "input": {
+        "position": [
+          91,
+          808
+        ],
+        "size": [
+          1178,
+          36
+        ]
+      }
+    },
+    "videoStartedUtc": "2026-10-21T02:44:46.513951+00:00"
+  }
+]

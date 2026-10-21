@@ -1,0 +1,36 @@
+{
+  "source": "a828eef7366d3d2b7eff3000c1d8f324396603f5",
+  "jarSha256": "92c8610bafe8f7bebd3a7de2ed17e14eb93f5e3261855d1cc5d056a995db8284",
+  "jarBytes": 12661476,
+  "operationalDataUnchanged": true,
+  "operationalDataSha256": "11e5406b985eee361161274d4b653db4ac341eeaeceb92f06fdf9c099b8031dc",
+  "completeHelpCopyCharacters": 1823,
+  "nativeAccessBlockerCleared": true,
+  "strictViewSplitStability": "OWNER_REVIEW_REQUIRED",
+  "display": {
+    "physicalPixels": [
+      3024,
+      1964
+    ],
+    "desktopPoints": [
+      1512,
+      982
+    ],
+    "backingScale": 2.0
+  },
+  "nativeWindowSizes": [
+    [
+      1200,
+      800
+    ],
+    [
+      853,
+      600
+    ],
+    [
+      450,
+      360
+    ]
+  ],
+  "scope": "Native Mac evidence only; not final candidate or independent human review"
+}

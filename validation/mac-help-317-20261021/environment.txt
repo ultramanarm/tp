@@ -1,0 +1,31 @@
+Manual Mac acceptance setup; no native PASS is claimed
+Prepared: 2026-10-21T09:23:51.390110+08:00
+Source: a828eef7366d3d2b7eff3000c1d8f324396603f5
+JAR size: 12661476
+JAR SHA-256: 92c8610bafe8f7bebd3a7de2ed17e14eb93f5e3261855d1cc5d056a995db8284
+Selected Java: /Users/zhiyuzhu/.sdkman/candidates/java/25.0.3.fx-zulu/bin/java
+ProductName:		macOS
+ProductVersion:		15.7.7
+BuildVersion:		24G720
+Architecture: arm64
+openjdk version "25.0.3" 2026-04-21 LTS
+OpenJDK Runtime Environment Zulu25.34+17-CA (build 25.0.3+9-LTS)
+OpenJDK 64-Bit Server VM Zulu25.34+17-CA (build 25.0.3+9-LTS, mixed mode, sharing)
+
+JavaFX modules:
+javafx.base@25.0.3
+javafx.controls@25.0.3
+javafx.fxml@25.0.3
+javafx.graphics@25.0.3
+javafx.media@25.0.3
+javafx.swing@25.0.3
+javafx.web@25.0.3
+
+Manifest-Version: 1.0
+Implementation-Title: PonHub
+Implementation-Version: 1.3
+Main-Class: seedu.address.Main
+
+
+Fixture: 30 Students (first S1), Tutor T1, Parent P1; 8 Monday Lessons, 30-member rosters, 60 S1/L1 history entries. All fictitious.
+Initial operational-data SHA-256: 11e5406b985eee361161274d4b653db4ac341eeaeceb92f06fdf9c099b8031dc

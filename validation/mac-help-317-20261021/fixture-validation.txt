@@ -1,0 +1,1 @@
+Fixture accepted by exact packaged codec: 32 people, 8 Lessons, 60 attendance records

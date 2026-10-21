@@ -1,0 +1,79 @@
+Native Mac help/result acceptance evidence — 21 October 2026
+
+Recorded by Zhu Zhi Yu (ultramanarm) with OpenAI Codex assistance.
+Native operations used user-authorized AppleScript/System Events and real
+Quartz mouse/keyboard events on the actual packaged JavaFX application.
+This is Codex-operated native GUI evidence, not an independent human review.
+
+SOURCE AND ARTIFACT
+Source: a828eef7366d3d2b7eff3000c1d8f324396603f5
+ponhub.jar: 12,661,476 bytes
+SHA-256: 92c8610bafe8f7bebd3a7de2ed17e14eb93f5e3261855d1cc5d056a995db8284
+Manifest: PonHub, version 1.3, entry point seedu.address.Main.
+This current-source local acceptance artifact is not the final v1.4 candidate.
+macOS 15.7.7 (24G720), arm64; prescribed Azul 25.0.3.fx-zulu,
+Zulu25.34+17-CA/OpenJDK 25.0.3+9-LTS; bundled JavaFX 25.0.3.
+Display: 3024x1964 physical pixels, 1512x982 desktop points, backing scale 2.0.
+Window sizes observed: 1200x800, 853x600 and minimum 450x360 native points.
+These are actual Mac configurations; no Windows-style scale percentage is inferred.
+
+PASS — OBSERVED NATIVE BEHAVIOUR
+- Actual packaged application displayed and accepted real command input.
+- Native mouse drags enlarged and reduced the help/result area. Tested both
+  limits; native result-area heights included 485 and 47 points (AX inner
+  bounds), with positive people/Lesson viewports and reachable bottom input.
+- The separate people/Lesson divider moved people width from 576 to 416 points
+  without changing the result height (248 points at that check).
+- Long help scrolled to its actual final examples. Native select-all/copy
+  reproduced the complete 1,823-character help-search content; the user's
+  original clipboard was restored. Expected/copied text files match exactly.
+- A real 567-character unknown-command response wrapped and scrolled. A
+  malformed add returned the checked missing-r/ error without mutation.
+- F1 from both command input and result display preserved an unfinished
+  'add r/student n/Unfinished' draft, filtered S1 selection and chosen split.
+- The real Help popup's Help item (AXPress) preserved the same draft,
+  selected Student, people filter and split. Preference-file bytes stayed
+  unchanged during the isolated F1/result check.
+- Native keyboard End independently scrolled the people and Lesson lists;
+  the other list's scroll position remained unchanged. The final P1 and L8
+  cards are visible in 26/27 captures. This does not claim every field of
+  every oversized card was inspected. Later AX scrollbar-set attempts did
+  not move the lists and are not counted as passing scroll evidence.
+- Populated 30-Student roster and 60-record history rendered. Native resize
+  through compact, minimum and restored windows retained visible list
+  viewports and the reachable command box beneath both columns.
+- Operational JSON remains byte-identical to the original fictitious fixture.
+  Production source and the primary checkout were not modified.
+
+LAYOUT-STABILITY FINDING — NEEDS OWNER REVIEW
+F1/menu preservation passed, but strict split stability across view changes
+is not fully satisfied by this run. A settled screenshot comparison at
+1200x800, unchanged display and no divider/resize input showed:
+  help:       divider centre 429.75 points from window top
+  showlesson: divider centre 431.75 points (+2)
+  history:    divider centre 428.75 points (-3 from roster)
+  help:       divider centre 428.75 points (unchanged)
+The reported command-input top moved from y=808 to y=813 in the roster view
+and returned to y=808. It remained reachable. One earlier cycle similarly
+changed result AX heights 319 -> 321 -> 318. Do not infer unbounded cumulative
+drift or a broader regression from these bounded observations.
+Reproduce with the supplied fixture at 1200x800: set a non-default result
+height; enter help, showlesson lid/L1 d/2026-10-19, history 1, help; compare
+41-settled-0 through 3 and settled-native-layout.json. The native video proves
+actual up/down drags; the settled screenshots quantify the separate finding.
+
+LIMITS AND HANDOFF
+- #317 remains open for the split-stability finding and acceptance/configuration
+  reconciliation. Its old 'no accessible native window' blocker is cleared for
+  this AppleScript route. CUA itself still did not bind the Java application.
+- Reuse the actual source/native evidence for #321's affected help/resize pass;
+  Ben's #268 and other independently owned checks retain their own status.
+- Exact 1920x1080 100%/125% and 1280x720 150% runs were not performed here.
+  Windows/Linux native acceptance and final immutable v1.4 candidate/package
+  acceptance remain separate. No release was published or acceptance waived.
+- Native driver setup initially hit Accessibility denial, a Quartz bridge
+  release/marshalling failure, wrong initial pointer targeting and unsupported
+  AX scrollbar setters; corrected native actions are explicitly distinguished
+  in the retained log. Those setup failures are not product defects or passes.
+- Original owner Zhi Yu, v1.4, completion deadline 20 October 2026 10:00 SGT
+  and Target date 2026-10-20 are preserved and overdue.

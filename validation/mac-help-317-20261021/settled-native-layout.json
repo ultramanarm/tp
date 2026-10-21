@@ -1,0 +1,42 @@
+[
+  {
+    "command": "help",
+    "AXGeometry": "80, 80, 1200, 800, 93, 181, 1174, 318, 91, 808, 1178, 36",
+    "physicalDividerRows": [
+      850,
+      869
+    ],
+    "dividerCenterFromWindowTopPoints": 429.75,
+    "screenshot": "41-settled-0.png"
+  },
+  {
+    "command": "showlesson lid/L1 d/2026-10-19",
+    "AXGeometry": "80, 80, 1200, 800, 93, 181, 1174, 320, 91, 813, 1178, 36",
+    "physicalDividerRows": [
+      854,
+      873
+    ],
+    "dividerCenterFromWindowTopPoints": 431.75,
+    "screenshot": "41-settled-1.png"
+  },
+  {
+    "command": "history 1",
+    "AXGeometry": "80, 80, 1200, 800, 93, 181, 1174, 317, 91, 808, 1178, 36",
+    "physicalDividerRows": [
+      848,
+      867
+    ],
+    "dividerCenterFromWindowTopPoints": 428.75,
+    "screenshot": "41-settled-2.png"
+  },
+  {
+    "command": "help",
+    "AXGeometry": "80, 80, 1200, 800, 93, 181, 1174, 317, 91, 808, 1178, 36",
+    "physicalDividerRows": [
+      848,
+      867
+    ],
+    "dividerCenterFromWindowTopPoints": 428.75,
+    "screenshot": "41-settled-3.png"
+  }
+]
